@@ -9,6 +9,16 @@ class Node():
     self.depth = depth
     self.path_cost = path_cost
 
+  def expand(self, operators):
+    new_nodes = []
+    for operator in operators:
+      new_state = operator(state)
+      if new_state is not None:
+        #FIXME set path_cost
+        node = Node(new_state, operator, self, self.depth+1)
+        new_nodes.append(node)
+    return new_nodes
+
 #Abstract problem class
 class Problem():
   def __init__(self, operators, initial_state, goal_test):

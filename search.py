@@ -4,6 +4,6 @@ def general_search(problem, queue):
     node = queue.get()
     if problem.goal_test(node):
       return node
-    queue.put_many(Node.create_many(problem.apply_operators(node.state), node))
+    queue.put_many(node.expand(problem.operators))
     pass
   return None
