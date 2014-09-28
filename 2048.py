@@ -29,6 +29,7 @@ class TTFE(Problem):
     return goal_test
 
 #doc lines are used to get a human readable description of the action
+#each operator returns a new state and a cost
 
   def operator_up(self, grid):
     """Move up"""
