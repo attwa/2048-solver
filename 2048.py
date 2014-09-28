@@ -29,12 +29,16 @@ class TTFE(Problem):
     return goal_test
 
   def operator_up(self, grid):
+    """Move up"""
     pass
   def operator_down(self, grid):
+    """Move down"""
     pass
   def operator_left(self, grid):
+    """Move left"""
     pass
   def operator_right(self, grid):
+    """Move right"""
     pass
 
 #generates a grid and sets two random cells to 2
