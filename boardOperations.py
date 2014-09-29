@@ -36,41 +36,37 @@ def checkBlocked(board):
 	else:
 		return False;
 
+def tests():
+	# board = [[0 for x in xrange(4)] for x in xrange(4)] ;
+	# displayBoard(board);
+	# print;
+	# board[0][0] = 2;
+	# board[1][1] = 2;
+	# board[2][2] = 2;
+	# board[3][3] = 2;
+	# displayBoard(board);
+	# print;
+	# moveLeft2048(board);
+	# displayBoard(board);
 
+	x = [1,2,3,2,2,2,3,4]
+	board = [[0 for x in xrange(4)] for x in xrange(4)]
+	board[0][1] = 2;
+	board[1][1] = 4;
+	board[2][1] = 4;
+	board[3][1] = 4;
 
-	
+	board[0][2] = 2;
+	board[1][2] = 4;
+	board[2][2] = 2;
+	board[3][2] = 8;
 
+	board[0][3] = 2;
+	board[1][3] = 4;
+	board[2][3] = 2;
+	board[3][3] = 2;
 
-# board = [[0 for x in xrange(4)] for x in xrange(4)] ;
-# displayBoard(board);
-# print;
-# board[0][0] = 2;
-# board[1][1] = 2;
-# board[2][2] = 2;
-# board[3][3] = 2;
-# displayBoard(board);
-# print;
-# moveLeft2048(board);
-# displayBoard(board);
-
-x = [1,2,3,2,2,2,3,4]
-board = [[0 for x in xrange(4)] for x in xrange(4)]
-board[0][1] = 2;
-board[1][1] = 4;
-board[2][1] = 4;
-board[3][1] = 4;
-
-board[0][2] = 2;
-board[1][2] = 4;
-board[2][2] = 2;
-board[3][2] = 8;
-
-board[0][3] = 2;
-board[1][3] = 4;
-board[2][3] = 2;
-board[3][3] = 2;
-
-displayBoard(board);
-moveLeft2048(board);
-print;
-displayBoard(board);
+	displayBoard(board);
+	moveLeft2048(board);
+	print;
+	displayBoard(board);	
