@@ -28,21 +28,31 @@ class TTFE(Problem):
       return False
     return goal_test
 
+#doc lines are used to get a human readable description of the action
+#each operator returns a new state and a cost
+
   def operator_up(self, grid):
+    """Move up"""
     pass
   def operator_down(self, grid):
+    """Move down"""
     pass
   def operator_left(self, grid):
+    """Move left"""
     pass
   def operator_right(self, grid):
+    """Move right"""
     pass
 
 #generates a grid and sets two random cells to 2
 def GenGrid(rows=4, cols=4):
   grid = [[0]*cols for x in range(rows)]
-  grid[randint(0, rows-1)][randint(0, cols-1)] = 2;
-  #FIXME may generate same row and col
-  grid[randint(0, rows-1)][randint(0, cols-1)] = 2;
+
+  # checks that there are two '2's in the grid
+  # protects against problem where the random values for row and col are the same
+  while len(str(grid).split("2")) < 3:
+    grid[randint(0, rows-1)][randint(0, cols-1)] = 2;
+    grid[randint(0, rows-1)][randint(0, cols-1)] = 2;
   return grid
 
 if __name__ == "__main__":
