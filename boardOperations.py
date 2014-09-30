@@ -1,34 +1,5 @@
 #!/usr/bin/python
 
-def leftAlignNumbers(array): 
-	temp = filter(lambda a: a != 0, array);
-	while len(temp) <> len(array):
-		temp.append(0);
-	return temp;
-
-def moveLeft2048(board):
-	for i in range(0,4):
-		row = board[i];
-		row = leftAlignNumbers(row)
-		board[i] = row;
-
-	for i in range(0,4):
-		for j in range(0,3):
-			if board[i][j] == board[i][j+1] and board[i][j] <> 0:
-				board[i][j] *= 2;
-				del(board[i][j+1]);
-				board[i].append(0);				
-
-
-def remove_values_from_list(the_list, val):
-  return [value for value in the_list if value != val]
-		
-def displayBoard(board):
-	for i in range(0,4):
-		for j in range(0,4):
-			print str(board[i][j]) + " ",;
-		print;
-
 # This method is used to check whether the board is blocked and the game is over or not
 def checkBlocked(board):
 	if moveLeft2048(board) == board and moveDown2048(board) == board:
@@ -36,37 +7,79 @@ def checkBlocked(board):
 	else:
 		return False;
 
-def tests():
-	# board = [[0 for x in xrange(4)] for x in xrange(4)] ;
-	# displayBoard(board);
-	# print;
-	# board[0][0] = 2;
-	# board[1][1] = 2;
-	# board[2][2] = 2;
-	# board[3][3] = 2;
-	# displayBoard(board);
-	# print;
-	# moveLeft2048(board);
-	# displayBoard(board);
+# This method is used to rotate the board clockwise count times 
+# so that we can use move left for move right/up/down just by rotating 
+# first then applying move left then applying rotate again
+def rotateBoard(board, count):
+	temp = [x[:] for x in board];
+	boardSize = len(board);
+	# board = [[0 for x in xrange(boardSize)] for x in xrange(boardSize)];
+	for i in range(0, count):
+		for j in range(0, boardSize):
+			board[boardSize - 1 - j]= [item[j] for item in temp];
+		temp = [x[:] for x in board]
 
-	x = [1,2,3,2,2,2,3,4]
-	board = [[0 for x in xrange(4)] for x in xrange(4)]
-	board[0][1] = 2;
-	board[1][1] = 4;
-	board[2][1] = 4;
-	board[3][1] = 4;
+# This method is used to remove any zeros that lie between any 
+# non zero numbers in all the rows of the board 
+def leftAlignNumbers(array): 
+	temp = filter(lambda a: a != 0, array);
+	while len(temp) <> len(array):
+		temp.append(0);
+	return temp;
 
-	board[0][2] = 2;
-	board[1][2] = 4;
-	board[2][2] = 2;
-	board[3][2] = 8;
+# This method is used to model move left in the game
+def moveLeft2048(board):
+	boardSize = len(board);
+	for i in range(0,boardSize):
+		row = board[i];
+		row = leftAlignNumbers(row)
+		board[i] = row;
 
-	board[0][3] = 2;
-	board[1][3] = 4;
-	board[2][3] = 2;
-	board[3][3] = 2;
+	score = 0;
+	for i in range(0,boardSize):
+		for j in range(0,boardSize-1):
+			if board[i][j] == board[i][j+1] and board[i][j] <> 0:
+				board[i][j] *= 2;
+				score += board[i][j];
+				del(board[i][j+1]);
+				board[i].append(0);	
+	return score;			
 
-	displayBoard(board);
-	moveLeft2048(board);
+# This method is used to model move Down in the game		
+def moveDown2048(board):
+	rotateBoard(board,3);
+	cost = moveLeft2048(board);
+	rotateBoard(board,1);
+	return cost;
+
+# This method is used to model move Right in the game
+def moveRight2048(board):
+	rotateBoard(board,2);
+	cost = moveLeft2048(board);
+	rotateBoard(board,2);
+	return cost;
+
+# This method is used to model move Up in the game
+def moveUp2048(board):
+	rotateBoard(board,1);
+	cost = moveLeft2048(board);
+	rotateBoard(board,3);
+	return cost;
+
+def displayBoard(board):
+	for i in range(0,4):
+		for j in range(0,4):
+			print str(board[i][j]) + " ",;
+		print;
 	print;
-	displayBoard(board);	
+
+
+def tests():
+	# board = [[1,0,0,2],[0,1,2,0],[0,4,3,0],[4,0,0,3]];
+	# board = [[0,0,0,0],[1,1,1,1],[2,2,2,2],[3,3,3,3]];
+	board = [[2,4,0,0],[4,4,8,8],[8,16,16,32],[64,128,64,128]]
+	displayBoard(board);
+	moveUp2048(board);
+	displayBoard(board);
+
+tests();
