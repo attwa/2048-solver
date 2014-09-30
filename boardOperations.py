@@ -66,9 +66,10 @@ def moveUp2048(board):
 	rotateBoard(board,3);
 	return cost;
 
+# This method is used to display the board in the console
 def displayBoard(board):
-	for i in range(0,4):
-		for j in range(0,4):
+	for i in range(0, len(board)):
+		for j in range(0, len(board)):
 			print str(board[i][j]) + " ",;
 		print;
 	print;
