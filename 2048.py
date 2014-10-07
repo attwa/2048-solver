@@ -90,8 +90,10 @@ class TTFE(Problem):
   
   # This method is used to model move left in the game
   # returns grid after moving it left and score from the move
+  # if the move doesn't change the state it return None and 0
   def operator_left(self, grid):
     """Move left"""
+    originalGrid = grid;
     grid = copy.deepcopy(grid);
     gridSize = len(grid);
     for i in range(0,gridSize):
@@ -106,33 +108,49 @@ class TTFE(Problem):
           grid[i][j] *= 2;
           score += grid[i][j];
           del(grid[i][j+1]);
-          grid[i].append(0);  
-    return grid, score;     
+          grid[i].append(0);
+    if grid == originalGrid:
+      return None, 0;
+    else: 
+      return grid, score;     
 
   # This method is used to model move Up in the game
   # returns grid after moving it up and score from the move
+  # if the move doesn't change the state it return None and 0
   def operator_up(self, grid):
     """Move up"""
+    originalGrid = grid;
     grid = rotateGrid(grid,1);
     grid, cost = moveLeft2048(grid);
+    if grid == None:
+      return None, 0;
     grid = rotateGrid(grid,3);
     return grid, cost;
-  
+
   # This method is used to model move Down in the game    
   # returns grid after moving it down and score from the move
+  # if the move doesn't change the state it return None and 0
   def operator_down(self, grid):
     """Move down"""
+    originalGrid = grid;
     grid = rotateGrid(grid,3);
     grid, cost = moveLeft2048(grid);
+    if grid == None:
+      return None, 0;
     grid = rotateGrid(grid,1);
     return grid, cost;
 
+
   # This method is used to model move Right in the game
   # returns grid after moving it right and score from the move
+  # if the move doesn't change the state it return None and 0
   def operator_right(self, grid):
     """Move right"""
+    originalGrid = grid;
     grid = rotateGrid(grid,2);
     grid, cost = moveLeft2048(grid);
+    if grid == None:
+      return None, 0;
     grid = rotateGrid(grid,2);
     return grid, cost;
 

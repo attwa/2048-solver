@@ -36,6 +36,7 @@ def leftAlignNumbers(array):
 # This method is used to model move left in the game
 # returns grid after moving it left and score from the move
 def moveLeft2048(grid):
+	originalGrid = grid;
 	grid = copy.deepcopy(grid);
 	gridSize = len(grid);
 	for i in range(0,gridSize):
@@ -50,30 +51,42 @@ def moveLeft2048(grid):
 				grid[i][j] *= 2;
 				score += grid[i][j];
 				del(grid[i][j+1]);
-				grid[i].append(0);	
-	return grid, score;			
+				grid[i].append(0);
+	if grid == originalGrid:
+		return None, 0;
+	else:	
+		return grid, score;			
 
 # This method is used to model move Down in the game		
 # returns grid after moving it down and score from the move
 def moveDown2048(grid):
+	originalGrid = grid;
 	grid = rotateGrid(grid,3);
 	grid, cost = moveLeft2048(grid);
+	if grid == None:
+		return None, 0;
 	grid = rotateGrid(grid,1);
 	return grid, cost;
 
 # This method is used to model move Right in the game
 # returns grid after moving it right and score from the move
 def moveRight2048(grid):
+	originalGrid = grid;
 	grid = rotateGrid(grid,2);
 	grid, cost = moveLeft2048(grid);
+	if grid == None:
+		return None, 0;
 	grid = rotateGrid(grid,2);
 	return grid, cost;
 
 # This method is used to model move Up in the game
 # returns grid after moving it up and score from the move
 def moveUp2048(grid):
+	originalGrid = grid;
 	grid = rotateGrid(grid,1);
 	grid, cost = moveLeft2048(grid);
+	if grid == None:
+		return None, 0;
 	grid = rotateGrid(grid,3);
 	return grid, cost;
 
@@ -107,7 +120,7 @@ def tests():
 	# grid = [[2,0,0,0],[1,1,1,1],[2,2,2,2],[0,3,3,0]];
 	# grid = [[2,4,0,0],[4,4,8,8],[8,16,16,32],[64,128,64,128]]
 	grid = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,16]];
-	print checkBlocked(grid)
+	print checkBlocked(grid);
 	# displayGrid(grid);
 	# board,cost = moveDown2048(grid);
 	# displayGrid(grid);
