@@ -12,7 +12,7 @@ class Node():
   def expand(self, operators):
     new_nodes = []
     for operator in operators:
-      new_state, cost = operator(state)
+      new_state, cost = operator(self.state)
       if new_state is not None:
         node = Node(new_state, operator, self, self.depth+1, self.path_cost+cost)
         new_nodes.append(node)

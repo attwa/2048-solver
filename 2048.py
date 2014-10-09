@@ -46,12 +46,11 @@ class TTFE(Problem):
 
 #generates a grid and sets two random cells to 2
 def GenGrid(rows=4, cols=4):
-  grid = [[0]*cols for x in range(rows)]
+  grid = [[0]*cols for x in range(rows)] #generate 2D grid of rowsxcols
 
   # checks that there are two '2's in the grid
   # protects against problem where the random values for row and col are the same
   while len(str(grid).split("2")) < 3:
-    grid[randint(0, rows-1)][randint(0, cols-1)] = 2;
     grid[randint(0, rows-1)][randint(0, cols-1)] = 2;
   return grid
 
