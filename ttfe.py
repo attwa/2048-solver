@@ -41,8 +41,8 @@ class TTFE(Problem):
     else:
       return False
 
-  # This method is used to rotate the grid clockwise count times 
-  # so that we can use move left for move right/up/down just by rotating 
+  # This method is used to rotate the grid clockwise count times
+  # so that we can use move left for move right/up/down just by rotating
   # first then applying move left then applying rotate again
   # returns the grid rotated count times antclock wise
   @staticmethod
