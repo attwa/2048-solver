@@ -4,6 +4,7 @@ from random import randint
 from adt import Node, Problem
 from search import general_search
 import copy
+from boardOperations import moveLeft2048
 
 #[T]wo [T]housand [F]ourty [E]ight problem class
 class TTFE(Problem):
@@ -82,8 +83,8 @@ class TTFE(Problem):
   # non zero numbers in all the rows of the grid
   # returns an array with zeros moved to the right of it
   @staticmethod
-  def leftAlignNumbers(array): 
-    temp = filter(lambda a: a != 0, array)
+  def leftAlignNumbers(array):
+    temp = [x for x in filter(lambda a: a != 0, array)]
     while len(temp) != len(array):
       temp.append(0)
     return temp
@@ -99,14 +100,14 @@ class TTFE(Problem):
     originalGrid = grid
     grid = copy.deepcopy(grid)
     gridSize = len(grid)
-    for i in range(ridSize):
+    for i in range(gridSize):
       row = grid[i]
-      row = leftAlignNumbers(row)
+      row = self.leftAlignNumbers(row)
       grid[i] = row
 
     score = 0
-    for i in range(ridSize):
-      for j in range(ridSize-1):
+    for i in range(gridSize):
+      for j in range(gridSize-1):
         if grid[i][j] == grid[i][j+1] and grid[i][j] != 0:
           grid[i][j] *= 2
           score += grid[i][j]
@@ -123,11 +124,11 @@ class TTFE(Problem):
   def operator_up(self, grid):
     """Move up"""
     originalGrid = grid
-    grid = rotateGrid(grid,1)
+    grid = self.rotateGrid(grid,1)
     grid, cost = moveLeft2048(grid)
     if grid == None:
       return None, 0
-    grid = rotateGrid(grid,3)
+    grid = self.rotateGrid(grid,3)
     return grid, cost
 
   # This method is used to model move Down in the game
@@ -136,11 +137,11 @@ class TTFE(Problem):
   def operator_down(self, grid):
     """Move down"""
     originalGrid = grid
-    grid = rotateGrid(grid,3)
+    grid = self.rotateGrid(grid,3)
     grid, cost = moveLeft2048(grid)
     if grid == None:
       return None, 0
-    grid = rotateGrid(grid,1)
+    grid = self.rotateGrid(grid,1)
     return grid, cost
 
   # This method is used to model move Right in the game
@@ -149,11 +150,11 @@ class TTFE(Problem):
   def operator_right(self, grid):
     """Move right"""
     originalGrid = grid
-    grid = rotateGrid(grid,2)
+    grid = self.rotateGrid(grid,2)
     grid, cost = moveLeft2048(grid)
     if grid == None:
       return None, 0
-    grid = rotateGrid(grid,2)
+    grid = self.rotateGrid(grid,2)
     return grid, cost
 
 #generates a grid and sets two random cells to 2
