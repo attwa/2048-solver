@@ -31,55 +31,58 @@ class TTFE(Problem):
 
   # This method is used to check whether the grid is blocked and the game is over or not
   # retruns either true or false
-  def checkBlocked(grid):
-    grid1, _ = moveLeft2048(grid)
-    grid2, _ = moveDown2048(grid)
-    if  grid1 == grid2:
+  def checkBlocked(self, grid):
+    grid1, _ = operator_up(self, grid)
+    grid2, _ = operator_left(self, grid)
+    grid3, _ = operator_right(self, grid)
+    grid4, _ = operator_down(self, grid)
+    if  grid1 == grid2 & grid2 == grid3 & grid3 == grid4:
       return True
     else:
       return False
 
-  # This method is used to rotate the grid clockwise count times
-  # so that we can use move left for move right/up/down just by rotating
+  # This method is used to rotate the grid clockwise count times 
+  # so that we can use move left for move right/up/down just by rotating 
   # first then applying move left then applying rotate again
   # returns the grid rotated count times antclock wise
+  @staticmethod
   def rotateGrid(grid, count):
     temp = copy.deepcopy(grid)
     gridSize = len(grid)
     grid = [[0]*gridSize]*gridSize
-    for i in range(0, count):
-      for j in range(0, gridSize):
+    for i in range(count):
+      for j in range(gridSize):
         grid[gridSize - 1 - j]= [item[j] for item in temp]
       temp = copy.deepcopy(grid)
     return grid
 
   # This method is used to display the grid in the console
-  def displayGrid(grid):
-    for i in range(0, len(grid)):
-      for j in range(0, len(grid)):
-        print(str(grid[i][j]), end=" ")
+  def displayGrid(self, grid):
+    for row in grid:
+      for cell in row:
+        print(cell, end="\t")
       print()
     print()
 
   # This method is used to add a tile for the grid
   # returns new grid affter adding a tile
-  def addTile(grid):
+  def addTile(self, grid):
     grid = copy.deepcopy(grid)
-    last = len(grid) -1
     if grid[0][0] == 0:
       grid[0][0] = 2
-    elif grid[0][last] == 0:
-      grid[0][last] = 2
-    elif grid[last][last] == 0:
-      grid[last][last] = 2
-    elif grid[last][0] == 0:
-      grid[last][0] = 2
+    elif grid[0][-1] == 0:
+      grid[0][-1] = 2
+    elif grid[-1][-1] == 0:
+      grid[-1][-1] = 2
+    elif grid[-1][0] == 0:
+      grid[-1][0] = 2
     return grid
 
   # This method is used to remove any zeros that lie between any
   # non zero numbers in all the rows of the grid
   # returns an array with zeros moved to the right of it
-  def leftAlignNumbers(array):
+  @staticmethod
+  def leftAlignNumbers(array): 
     temp = filter(lambda a: a != 0, array)
     while len(temp) != len(array):
       temp.append(0)
@@ -96,14 +99,14 @@ class TTFE(Problem):
     originalGrid = grid
     grid = copy.deepcopy(grid)
     gridSize = len(grid)
-    for i in range(0,gridSize):
+    for i in range(ridSize):
       row = grid[i]
       row = leftAlignNumbers(row)
       grid[i] = row
 
     score = 0
-    for i in range(0,gridSize):
-      for j in range(0,gridSize-1):
+    for i in range(ridSize):
+      for j in range(ridSize-1):
         if grid[i][j] == grid[i][j+1] and grid[i][j] != 0:
           grid[i][j] *= 2
           score += grid[i][j]
@@ -140,7 +143,6 @@ class TTFE(Problem):
     grid = rotateGrid(grid,1)
     return grid, cost
 
-
   # This method is used to model move Right in the game
   # returns grid after moving it right and score from the move
   # if the move doesn't change the state it return None and 0
@@ -156,7 +158,7 @@ class TTFE(Problem):
 
 #generates a grid and sets two random cells to 2
 def GenGrid(rows=4, cols=4):
-  grid = [[0]*cols for x in range(rows)] #generate 2D grid of rowsxcols
+  grid = [[0]*cols for x in range(rows)]
 
   # checks that there are two '2's in the grid
   # protects against problem where the random values for row and col are the same
