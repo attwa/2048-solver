@@ -28,19 +28,19 @@ class TTFE(Problem):
           if cell == m: return True
       return False
     return goal_test
-  
+
   # This method is used to check whether the grid is blocked and the game is over or not
   # retruns either true or false
   def checkBlocked(grid):
     grid1, _ = moveLeft2048(grid);
-    grid2, _ = moveDown2048(grid);   
-    if  grid1 == grid2: 
+    grid2, _ = moveDown2048(grid);
+    if  grid1 == grid2:
       return True;
     else:
       return False;
 
-  # This method is used to rotate the grid clockwise count times 
-  # so that we can use move left for move right/up/down just by rotating 
+  # This method is used to rotate the grid clockwise count times
+  # so that we can use move left for move right/up/down just by rotating
   # first then applying move left then applying rotate again
   # returns the grid rotated count times antclock wise
   def rotateGrid(grid, count):
@@ -76,10 +76,10 @@ class TTFE(Problem):
       grid[last][0] = 2;
     return grid;
 
-  # This method is used to remove any zeros that lie between any 
-  # non zero numbers in all the rows of the grid 
+  # This method is used to remove any zeros that lie between any
+  # non zero numbers in all the rows of the grid
   # returns an array with zeros moved to the right of it
-  def leftAlignNumbers(array): 
+  def leftAlignNumbers(array):
     temp = filter(lambda a: a != 0, array);
     while len(temp) <> len(array):
       temp.append(0);
@@ -87,7 +87,7 @@ class TTFE(Problem):
 
   #doc lines are used to get a human readable description of the action
   #each operator returns a new state and a cost
-  
+
   # This method is used to model move left in the game
   # returns grid after moving it left and score from the move
   # if the move doesn't change the state it return None and 0
@@ -111,8 +111,8 @@ class TTFE(Problem):
           grid[i].append(0);
     if grid == originalGrid:
       return None, 0;
-    else: 
-      return grid, score;     
+    else:
+      return grid, score;
 
   # This method is used to model move Up in the game
   # returns grid after moving it up and score from the move
@@ -127,7 +127,7 @@ class TTFE(Problem):
     grid = rotateGrid(grid,3);
     return grid, cost;
 
-  # This method is used to model move Down in the game    
+  # This method is used to model move Down in the game
   # returns grid after moving it down and score from the move
   # if the move doesn't change the state it return None and 0
   def operator_down(self, grid):
