@@ -32,58 +32,58 @@ class TTFE(Problem):
   # This method is used to check whether the grid is blocked and the game is over or not
   # retruns either true or false
   def checkBlocked(grid):
-    grid1, _ = moveLeft2048(grid);
-    grid2, _ = moveDown2048(grid);
+    grid1, _ = moveLeft2048(grid)
+    grid2, _ = moveDown2048(grid)
     if  grid1 == grid2:
-      return True;
+      return True
     else:
-      return False;
+      return False
 
   # This method is used to rotate the grid clockwise count times
   # so that we can use move left for move right/up/down just by rotating
   # first then applying move left then applying rotate again
   # returns the grid rotated count times antclock wise
   def rotateGrid(grid, count):
-    temp = copy.deepcopy(grid);
-    gridSize = len(grid);
-    grid = [[0]*gridSize]*gridSize;
+    temp = copy.deepcopy(grid)
+    gridSize = len(grid)
+    grid = [[0]*gridSize]*gridSize
     for i in range(0, count):
       for j in range(0, gridSize):
-        grid[gridSize - 1 - j]= [item[j] for item in temp];
-      temp = copy.deepcopy(grid);
-    return grid;
+        grid[gridSize - 1 - j]= [item[j] for item in temp]
+      temp = copy.deepcopy(grid)
+    return grid
 
   # This method is used to display the grid in the console
   def displayGrid(grid):
     for i in range(0, len(grid)):
       for j in range(0, len(grid)):
-        print str(grid[i][j]) + " ",;
-      print;
-    print;
+        print str(grid[i][j]) + " ",
+      print
+    print
 
   # This method is used to add a tile for the grid
   # returns new grid affter adding a tile
   def addTile(grid):
-    grid = copy.deepcopy(grid);
-    last = len(grid) -1;
+    grid = copy.deepcopy(grid)
+    last = len(grid) -1
     if grid[0][0] == 0:
-      grid[0][0] = 2;
+      grid[0][0] = 2
     elif grid[0][last] == 0:
-      grid[0][last] = 2;
+      grid[0][last] = 2
     elif grid[last][last] == 0:
-      grid[last][last] = 2;
+      grid[last][last] = 2
     elif grid[last][0] == 0:
-      grid[last][0] = 2;
-    return grid;
+      grid[last][0] = 2
+    return grid
 
   # This method is used to remove any zeros that lie between any
   # non zero numbers in all the rows of the grid
   # returns an array with zeros moved to the right of it
   def leftAlignNumbers(array):
-    temp = filter(lambda a: a != 0, array);
+    temp = filter(lambda a: a != 0, array)
     while len(temp) <> len(array):
-      temp.append(0);
-    return temp;
+      temp.append(0)
+    return temp
 
   #doc lines are used to get a human readable description of the action
   #each operator returns a new state and a cost
@@ -93,52 +93,52 @@ class TTFE(Problem):
   # if the move doesn't change the state it return None and 0
   def operator_left(self, grid):
     """Move left"""
-    originalGrid = grid;
-    grid = copy.deepcopy(grid);
-    gridSize = len(grid);
+    originalGrid = grid
+    grid = copy.deepcopy(grid)
+    gridSize = len(grid)
     for i in range(0,gridSize):
-      row = grid[i];
+      row = grid[i]
       row = leftAlignNumbers(row)
-      grid[i] = row;
+      grid[i] = row
 
-    score = 0;
+    score = 0
     for i in range(0,gridSize):
       for j in range(0,gridSize-1):
         if grid[i][j] == grid[i][j+1] and grid[i][j] <> 0:
-          grid[i][j] *= 2;
-          score += grid[i][j];
-          del(grid[i][j+1]);
-          grid[i].append(0);
+          grid[i][j] *= 2
+          score += grid[i][j]
+          del(grid[i][j+1])
+          grid[i].append(0)
     if grid == originalGrid:
-      return None, 0;
+      return None, 0
     else:
-      return grid, score;
+      return grid, score
 
   # This method is used to model move Up in the game
   # returns grid after moving it up and score from the move
   # if the move doesn't change the state it return None and 0
   def operator_up(self, grid):
     """Move up"""
-    originalGrid = grid;
-    grid = rotateGrid(grid,1);
-    grid, cost = moveLeft2048(grid);
+    originalGrid = grid
+    grid = rotateGrid(grid,1)
+    grid, cost = moveLeft2048(grid)
     if grid == None:
-      return None, 0;
-    grid = rotateGrid(grid,3);
-    return grid, cost;
+      return None, 0
+    grid = rotateGrid(grid,3)
+    return grid, cost
 
   # This method is used to model move Down in the game
   # returns grid after moving it down and score from the move
   # if the move doesn't change the state it return None and 0
   def operator_down(self, grid):
     """Move down"""
-    originalGrid = grid;
-    grid = rotateGrid(grid,3);
-    grid, cost = moveLeft2048(grid);
+    originalGrid = grid
+    grid = rotateGrid(grid,3)
+    grid, cost = moveLeft2048(grid)
     if grid == None:
-      return None, 0;
-    grid = rotateGrid(grid,1);
-    return grid, cost;
+      return None, 0
+    grid = rotateGrid(grid,1)
+    return grid, cost
 
 
   # This method is used to model move Right in the game
@@ -146,13 +146,13 @@ class TTFE(Problem):
   # if the move doesn't change the state it return None and 0
   def operator_right(self, grid):
     """Move right"""
-    originalGrid = grid;
-    grid = rotateGrid(grid,2);
-    grid, cost = moveLeft2048(grid);
+    originalGrid = grid
+    grid = rotateGrid(grid,2)
+    grid, cost = moveLeft2048(grid)
     if grid == None:
-      return None, 0;
-    grid = rotateGrid(grid,2);
-    return grid, cost;
+      return None, 0
+    grid = rotateGrid(grid,2)
+    return grid, cost
 
 #generates a grid and sets two random cells to 2
 def GenGrid(rows=4, cols=4):
@@ -160,8 +160,8 @@ def GenGrid(rows=4, cols=4):
 
   # checks that there are two '2's in the grid
   # protects against problem where the random values for row and col are the same
-  while len(str(grid).split("2")) < 3:
-    grid[randint(0, rows-1)][randint(0, cols-1)] = 2;
+  while sum(map(sum, grid)) < 4:
+    grid[randint(0, rows-1)][randint(0, cols-1)] = 2
   return grid
 
 if __name__ == "__main__":
