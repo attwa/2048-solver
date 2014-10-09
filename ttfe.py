@@ -57,9 +57,9 @@ class TTFE(Problem):
   def displayGrid(grid):
     for i in range(0, len(grid)):
       for j in range(0, len(grid)):
-        print str(grid[i][j]) + " ",
-      print
-    print
+        print(str(grid[i][j]), end=" ")
+      print()
+    print()
 
   # This method is used to add a tile for the grid
   # returns new grid affter adding a tile
@@ -81,7 +81,7 @@ class TTFE(Problem):
   # returns an array with zeros moved to the right of it
   def leftAlignNumbers(array):
     temp = filter(lambda a: a != 0, array)
-    while len(temp) <> len(array):
+    while len(temp) != len(array):
       temp.append(0)
     return temp
 
@@ -104,7 +104,7 @@ class TTFE(Problem):
     score = 0
     for i in range(0,gridSize):
       for j in range(0,gridSize-1):
-        if grid[i][j] == grid[i][j+1] and grid[i][j] <> 0:
+        if grid[i][j] == grid[i][j+1] and grid[i][j] != 0:
           grid[i][j] *= 2
           score += grid[i][j]
           del(grid[i][j+1])
