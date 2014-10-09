@@ -2,7 +2,7 @@
 import sys, os
 from random import randint
 from adt import Node, Problem
-from search import general_search
+from search import general_search, dfs, bfs, ids
 import copy
 from boardOperations import moveLeft2048
 
@@ -15,10 +15,14 @@ class TTFE(Problem):
       self.operator_left,
       self.operator_right
     ]
+    updateState = [
+      self.addTile
+    ]
     super().__init__(
       operators,
       GenGrid(),
-      self.create_goal_test(m)
+      self.create_goal_test(m),
+      updateState
     )
 
   #returns a function that is the correct goal test according to the chosesn M
@@ -168,5 +172,6 @@ def GenGrid(rows=4, cols=4):
   return grid
 
 if __name__ == "__main__":
-  p = TTFE(2048)
+  p = TTFE(16)
+  bfs(p)
   pass
