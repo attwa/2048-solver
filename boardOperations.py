@@ -91,12 +91,12 @@ def moveUp2048(grid):
 	return grid, cost;
 
 # This method is used to display the grid in the console
-def displayGrid(grid):
-	for i in range(0, len(grid)):
-		for j in range(0, len(grid)):
-			print(str(grid[i][j]));
-		print()
-	print()
+def displayGrid(grid, ret=False):
+  s=""
+  for row in grid:
+    s += "\t".join(map(str,row)) + "\n"
+  if ret: return s
+  print(s)
 
 # This method is used to add a tile for the grid
 # returns new grid affter adding a tile
@@ -125,5 +125,3 @@ def tests():
 	# board,cost = moveDown2048(grid);
 	# displayGrid(grid);
 	# displayGrid(board);
-	
-tests();

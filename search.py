@@ -15,6 +15,6 @@ def dfs(problem):
   return general_search(problem, queue_multi_insert(queue.LifoQueue)())
 
 if __name__ == "__main__":
-  import ttfe
-  p = ttfe.TTFE(8)
-  dfs(p)
+  import ttfe, sys
+  p = ttfe.TTFE(int(sys.argv[1]))
+  print(dfs(p))

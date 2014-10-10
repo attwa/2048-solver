@@ -1,3 +1,4 @@
+import boardOperations
 #Abstract search tree class
 class Node():
   def __init__(self, state, operator=None, parent=None,
@@ -17,6 +18,9 @@ class Node():
         node = Node(new_state, operator, self, self.depth+1, self.path_cost+cost)
         new_nodes.append(node)
     return new_nodes
+
+  def __str__(self):
+    return boardOperations.displayGrid(self.state, ret=True)
 
 #Abstract problem class
 class Problem():

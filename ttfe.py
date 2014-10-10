@@ -58,12 +58,13 @@ class TTFE(Problem):
     return grid
 
   # This method is used to display the grid in the console
-  def displayGrid(self, grid):
+  @staticmethod
+  def displayGrid(grid, ret=False):
+    s=""
     for row in grid:
-      for cell in row:
-        print(cell, end="\t")
-      print()
-    print()
+      s += "\t".join(row) + "\n"
+    if ret: return s
+    print(s)
 
   # This method is used to add a tile for the grid
   # returns new grid affter adding a tile
@@ -116,6 +117,7 @@ class TTFE(Problem):
     if grid == originalGrid:
       return None, 0
     else:
+      grid = self.addTile(grid)
       return grid, score
 
   # This method is used to model move Up in the game
@@ -129,6 +131,7 @@ class TTFE(Problem):
     if grid == None:
       return None, 0
     grid = self.rotateGrid(grid,3)
+    grid = self.addTile(grid)
     return grid, cost
 
   # This method is used to model move Down in the game
@@ -142,6 +145,7 @@ class TTFE(Problem):
     if grid == None:
       return None, 0
     grid = self.rotateGrid(grid,1)
+    grid = self.addTile(grid)
     return grid, cost
 
   # This method is used to model move Right in the game
@@ -155,6 +159,7 @@ class TTFE(Problem):
     if grid == None:
       return None, 0
     grid = self.rotateGrid(grid,2)
+    grid = self.addTile(grid)
     return grid, cost
 
 #generates a grid and sets two random cells to 2
