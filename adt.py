@@ -1,4 +1,5 @@
 import boardOperations
+
 #Abstract search tree class
 class Node():
   def __init__(self, state, operator=None, parent=None,
