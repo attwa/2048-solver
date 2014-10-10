@@ -17,6 +17,9 @@ def dfs(problem):
 def bfs(problem):
 	return general_search(problem, queue_multi_insert(queue.Queue)())
 
+def greedy(problem, heuristic=lambda a: 0):
+	return general_search(problem, GreedyQueue(heuristic))
+
 def ids(problem):
 	i = 0
 	while True:
@@ -36,7 +39,20 @@ class LimitedDepthQueue(queue.LifoQueue):
       return
     super().put(node, *args, **kwargs)
 
+@queue_multi_insert
+class GreedyQueue(queue.PriorityQueue):
+  def __init__(self, heuristic=lambda a: 0, *args, **kwargs):
+    self.heuristic = heuristic
+    super().__init__(*args, **kwargs)
+
+  def put(self, node, *args, **kwargs):
+    super().put((self.heuristic(node.state), node), *args, **kwargs)
+
+  def get(self, *args, **kwargs):
+    h, node = super().get(*args, **kwargs)
+    return node
+
 if __name__ == "__main__":
   import ttfe, sys
   p = ttfe.TTFE(int(sys.argv[1]))
-  print(ids(p))
+  print(greedy(p))

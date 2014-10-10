@@ -20,6 +20,9 @@ class Node():
         new_nodes.append(node)
     return new_nodes
 
+  def __lt__(self, node):
+    return self.depth > node.depth
+
   def __str__(self):
     return boardOperations.displayGrid(self.state, ret=True)
 
