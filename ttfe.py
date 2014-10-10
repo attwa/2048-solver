@@ -4,7 +4,6 @@ from random import randint
 from adt import Node, Problem
 from search import general_search, dfs, bfs, ids
 import copy
-from boardOperations import moveLeft2048
 
 #[T]wo [T]housand [F]ourty [E]ight problem class
 class TTFE(Problem):
@@ -90,14 +89,10 @@ class TTFE(Problem):
       temp.append(0)
     return temp
 
-  #doc lines are used to get a human readable description of the action
-  #each operator returns a new state and a cost
-
-  # This method is used to model move left in the game
-  # returns grid after moving it left and score from the move
-  # if the move doesn't change the state it return None and 0
-  def operator_left(self, grid):
-    """Move left"""
+  # This is the method that is used as a building block for all operators
+  # This method moves the board to the left  
+  @staticmethod
+  def moveLeft2048(grid):
     originalGrid = grid
     grid = copy.deepcopy(grid)
     gridSize = len(grid)
@@ -117,17 +112,34 @@ class TTFE(Problem):
     if grid == originalGrid:
       return None, 0
     else:
-      grid = self.addTile(grid)
       return grid, score
+
+
+  #doc lines are used to get a human readable description of the action
+  #each operator returns a new state and a cost
+
+  # This method is used to model move left in the game
+  # returns grid after moving it left and score from the move
+  # if the move doesn't change the state it returns None and 0
+  def operator_left(self, grid):
+    """Move left"""
+    originalGrid = grid
+    grid, cost = self.moveLeft2048(grid)
+    # print(id(originalGrid) == id(grid))
+    if grid == None:
+      return None, 0
+    grid = self.addTile(grid)
+    return grid, cost
+
 
   # This method is used to model move Up in the game
   # returns grid after moving it up and score from the move
-  # if the move doesn't change the state it return None and 0
+  # if the move doesn't change the state it returns None and 0
   def operator_up(self, grid):
     """Move up"""
     originalGrid = grid
     grid = self.rotateGrid(grid,1)
-    grid, cost = moveLeft2048(grid)
+    grid, cost = self.moveLeft2048(grid)
     if grid == None:
       return None, 0
     grid = self.rotateGrid(grid,3)
@@ -136,12 +148,12 @@ class TTFE(Problem):
 
   # This method is used to model move Down in the game
   # returns grid after moving it down and score from the move
-  # if the move doesn't change the state it return None and 0
+  # if the move doesn't change the state it returns None and 0
   def operator_down(self, grid):
     """Move down"""
     originalGrid = grid
     grid = self.rotateGrid(grid,3)
-    grid, cost = moveLeft2048(grid)
+    grid, cost = self.moveLeft2048(grid)
     if grid == None:
       return None, 0
     grid = self.rotateGrid(grid,1)
@@ -150,12 +162,12 @@ class TTFE(Problem):
 
   # This method is used to model move Right in the game
   # returns grid after moving it right and score from the move
-  # if the move doesn't change the state it return None and 0
+  # if the move doesn't change the state it returns None and 0
   def operator_right(self, grid):
     """Move right"""
     originalGrid = grid
     grid = self.rotateGrid(grid,2)
-    grid, cost = moveLeft2048(grid)
+    grid, cost = self.moveLeft2048(grid)
     if grid == None:
       return None, 0
     grid = self.rotateGrid(grid,2)
@@ -174,5 +186,5 @@ def GenGrid(rows=4, cols=4):
 
 if __name__ == "__main__":
   p = TTFE(64)
-  bfs(p)
+  p.operator_left([[1,2,3,4],[1,2,3,4],[1,2,3,4],[1,2,3,4]])
   pass
