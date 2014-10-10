@@ -15,14 +15,10 @@ class TTFE(Problem):
       self.operator_left,
       self.operator_right
     ]
-    updateState = [
-      self.addTile
-    ]
     super().__init__(
       operators,
       GenGrid(),
       self.create_goal_test(m),
-      updateState
     )
 
   #returns a function that is the correct goal test according to the chosesn M
@@ -172,6 +168,6 @@ def GenGrid(rows=4, cols=4):
   return grid
 
 if __name__ == "__main__":
-  p = TTFE(16)
+  p = TTFE(64)
   bfs(p)
   pass

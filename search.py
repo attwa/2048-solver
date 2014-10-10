@@ -7,7 +7,7 @@ def general_search(problem, queue):
     node = queue.get()
     if problem.goal_test(node.state):
       return node
-    queue.put_many(node.expand(problem.operators, problem.update_state))
+    queue.put_many(node.expand(problem.operators))
     pass
   return None
 
