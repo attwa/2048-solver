@@ -113,7 +113,7 @@ class TTFE(Problem):
       return None, 0
     else:
       return grid, score
-
+  
 
   #doc lines are used to get a human readable description of the action
   #each operator returns a new state and a cost
@@ -186,5 +186,6 @@ def GenGrid(rows=4, cols=4):
 
 if __name__ == "__main__":
   p = TTFE(64)
+  # p.operator_left([[1,2,3,4],[1,2,3,4],[1,2,3,4],[1,2,3,4]])
   p.operator_left([[1,2,3,4],[1,2,3,4],[1,2,3,4],[1,2,3,4]])
   pass

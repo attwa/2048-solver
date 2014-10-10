@@ -28,6 +28,9 @@ def ids(problem):
 			return node
 		i += 1
 
+# def astar(problem, heuristic=lambda a: 0):
+# 	return general_search(problem, AStarQueue(heuristic))
+
 @queue_multi_insert
 class LimitedDepthQueue(queue.LifoQueue):
   def __init__(self, depth, *args, **kwargs):
@@ -51,6 +54,20 @@ class GreedyQueue(queue.PriorityQueue):
   def get(self, *args, **kwargs):
     h, node = super().get(*args, **kwargs)
     return node
+
+@queue_multi_insert
+class AStarQueue(queue.PriorityQueue):
+	def __init__(self, heuristic=lambda a: 0, *args, **kwargs):
+		self.heuristic = heuristic
+		super().__init__(*args, **kwargs)
+
+	def put(self, node, *args, **kwargs):
+		super().put((self.heuristic(node.state) + node.path_cost, node), *args, **kwargs)
+    
+	def get(self, *args, **kwargs):
+		f, node = super().get(*args, **kwargs)
+		return node
+
 
 if __name__ == "__main__":
   import ttfe, sys
