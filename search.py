@@ -66,8 +66,7 @@ class AStarQueue(queue.PriorityQueue):
     
 	def get(self, *args, **kwargs):
 		f, node = super().get(*args, **kwargs)
-		return node
-
+		return
 
 if __name__ == "__main__":
   import ttfe, sys
