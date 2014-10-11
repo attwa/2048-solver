@@ -21,17 +21,15 @@ class TTFE(Problem):
       operators,
       heuristics,
       GenGrid(),
-      self.create_goal_test(m),
+      self.goal_test,
     )
 
   #returns a function that is the correct goal test according to the chosesn M
-  def create_goal_test(self, m):
-    def goal_test(grid):
-      for row in grid:
-        for cell in row:
-          if cell == m: return True
-      return False
-    return goal_test
+  def goal_test(self, grid):
+    for row in grid:
+      for cell in row:
+        if cell == self.goal: return True
+    return False
 
   # This method is used to check whether the grid is blocked and the game is over or not
   # retruns either true or false
