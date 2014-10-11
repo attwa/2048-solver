@@ -15,18 +15,21 @@ def dfs(problem):
   return general_search(problem, queue_multi_insert(queue.LifoQueue)())
 
 def bfs(problem):
-	return general_search(problem, queue_multi_insert(queue.Queue)())
+  return general_search(problem, queue_multi_insert(queue.Queue)())
 
 def greedy(problem, heuristic=lambda a: 0):
-	return general_search(problem, GreedyQueue(heuristic))
+  return general_search(problem, GreedyQueue(heuristic))
 
 def ids(problem):
-	i = 0
-	while True:
-		node = general_search(problem, LimitedDepthQueue(i))
-		if node != None:
-			return node
-		i += 1
+  i = 0
+  while True:
+    q = LimitedDepthQueue(i)
+    node = general_search(problem, q)
+    if node != None:
+      return node
+    i += 1
+
+search
 
 @queue_multi_insert
 class LimitedDepthQueue(queue.LifoQueue):
