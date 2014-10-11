@@ -33,6 +33,8 @@ def ids(problem):
     total_expanded += expanded
     if node != None:
       return node, total_expanded
+    if not q.hit_max:
+      return None, total_expanded
     i += 1
 
 
@@ -40,10 +42,12 @@ def ids(problem):
 class LimitedDepthQueue(queue.LifoQueue):
   def __init__(self, depth, *args, **kwargs):
     self.depth = depth
+    self.hit_max = False
     super().__init__(*args, **kwargs)
 
   def put(self, node, *args, **kwargs):
     if node.depth > self.depth:
+      self.hit_max = True
       return
     super().put(node, *args, **kwargs)
 
