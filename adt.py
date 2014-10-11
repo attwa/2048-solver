@@ -32,7 +32,8 @@ class Node():
 
 #Abstract problem class
 class Problem():
-  def __init__(self, operators, initial_state, goal_test):
+  def __init__(self, operators, heuristics, initial_state, goal_test):
     self.operators = operators
+    self.heuristics = heuristics
     self.initial_state = initial_state
     self.goal_test = goal_test

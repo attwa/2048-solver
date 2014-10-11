@@ -15,8 +15,11 @@ class TTFE(Problem):
       self.operator_left,
       self.operator_right
     ]
+    heuristics = [self.heuristic1]
+    self.goal = m
     super().__init__(
       operators,
+      heuristics,
       GenGrid(),
       self.create_goal_test(m),
     )
@@ -119,6 +122,14 @@ class TTFE(Problem):
     else:
       grid = self.addTile(grid)
       return grid, score
+
+  def heuristic1(self, grid):
+    max_value = max(map(max, grid))
+    cost = 0
+    while max_value < self.goal:
+      max_value *= 2
+      cost += max_value
+    return cost
 
   # This method is used to model move Up in the game
   # returns grid after moving it up and score from the move

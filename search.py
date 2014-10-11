@@ -17,8 +17,8 @@ def dfs(problem):
 def bfs(problem):
   return general_search(problem, queue_multi_insert(queue.Queue)())
 
-def greedy(problem, heuristic=lambda a: 0):
-  return general_search(problem, GreedyQueue(heuristic))
+def greedy(problem, heuristic_id):
+  return general_search(problem, GreedyQueue(problem.heuristics[heuristic_id]))
 
 def ids(problem):
   i = 0
@@ -29,7 +29,6 @@ def ids(problem):
       return node
     i += 1
 
-search
 
 @queue_multi_insert
 class LimitedDepthQueue(queue.LifoQueue):
