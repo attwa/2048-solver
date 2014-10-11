@@ -21,7 +21,7 @@ class Node():
     return new_nodes
 
   def __lt__(self, node):
-    return self.depth > node.depth
+    return False
 
   def __str__(self):
     s = ""
