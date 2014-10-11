@@ -24,7 +24,11 @@ class Node():
     return self.depth > node.depth
 
   def __str__(self):
-    return boardOperations.displayGrid(self.state, ret=True)
+    s = ""
+    s += "depth={0} cost={1} expand_order={2}\n".format(self.depth,
+        self.path_cost, self.expanded)
+    s += boardOperations.displayGrid(self.state, ret=True)
+    return s
 
 #Abstract problem class
 class Problem():
