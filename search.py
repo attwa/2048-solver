@@ -93,7 +93,7 @@ def Search(grid, M, strategy, visualize=False):
   elif strategy == "AS2":
     solution, expanded = astar(problem, 1)
   else:
-    raise Exception("{0} is not a valid strategy".format(strategy))
+    raise Exception("%s is not a valid strategy"%(strategy, ))
   if visualize:
     visualize_solution(solution)
   return solution, solution.path_cost, expanded
