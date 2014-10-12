@@ -19,14 +19,22 @@ class Node():
     return new_nodes
 
   def __lt__(self, node):
-    return self.depth > node.depth
+    return False
 
   def __str__(self):
-    return boardOperations.displayGrid(self.state, ret=True)
+    s = ""
+    s += "depth={0} cost={1} expand_order={2}\n".format(self.depth,
+        self.path_cost, self.expanded)
+    s += TTFE.displayGrid(self.state, ret=True)
+    return s
 
 #Abstract problem class
 class Problem():
-  def __init__(self, operators, initial_state, goal_test):
+  def __init__(self, operators, heuristics, initial_state, goal_test):
     self.operators = operators
+    self.heuristics = heuristics
     self.initial_state = initial_state
     self.goal_test = goal_test
+
+
+from ttfe import TTFE

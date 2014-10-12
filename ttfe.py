@@ -15,20 +15,21 @@ class TTFE(Problem):
       self.operator_left,
       self.operator_right
     ]
+    heuristics = [self.heuristic1]
+    self.goal = m
     super().__init__(
       operators,
+      heuristics,
       GenGrid(),
-      self.create_goal_test(m)
+      self.goal_test
     )
 
   #returns a function that is the correct goal test according to the chosesn M
-  def create_goal_test(self, m):
-    def goal_test(grid):
-      for row in grid:
-        for cell in row:
-          if cell == m: return True
-      return False
-    return goal_test
+  def goal_test(self, grid):
+    for row in grid:
+      for cell in row:
+        if cell == self.goal: return True
+    return False
 
   # This method is used to check whether the grid is blocked and the game is over or not
   # retruns either true or false
@@ -130,6 +131,14 @@ class TTFE(Problem):
     grid = self.addTile(grid)
     return grid, cost
 
+
+  def heuristic1(self, grid):
+    max_value = max(map(max, grid))
+    cost = 0
+    while max_value < self.goal:
+      max_value *= 2
+      cost += max_value
+    return cost
 
   # This method is used to model move Up in the game
   # returns grid after moving it up and score from the move
