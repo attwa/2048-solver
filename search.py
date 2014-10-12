@@ -65,8 +65,37 @@ class GreedyQueue(queue.PriorityQueue):
     h, node = super().get(*args, **kwargs)
     return node
 
+def visualize_solution(node):
+  if not node.root:
+    visualize_solution(node.parent)
+    print(node.operator.__doc__, end="\n\n")
+  grid_ops.displayGrid(node.state)
+
+def Search(grid, M, strategy, visualize=False):
+  problem = ttfe.TTFE(M, grid)
+  if strategy == "BF":
+    solution, expanded = bfs(problem)
+  elif strategy == "DF":
+    solution, expanded = dfs(problem)
+  elif strategy == "ID":
+    solution, expanded = ids(problem)
+  elif strategy == "GR1":
+    solution, expanded = greedy(problem, 0)
+  elif strategy == "GR2":
+    solution, expanded = greedy(problem, 1)
+  elif strategy == "AS1":
+    solution, expanded = astar(problem, 0)
+  elif strategy == "AS2":
+    solution, expanded = astar(problem, 1)
+  else:
+    raise Exception("{0} is not a valid strategy".format(strategy))
+  if visualize:
+    visualize_solution(solution)
+  return solution, solution.path_cost, expanded
+
 if __name__ == "__main__":
-  import ttfe, sys
-  p = ttfe.TTFE(int(sys.argv[1]))
-  solution, expanded = greedy(p, 0)
-  print(solution)
+  import sys
+  M = int(sys.argv[1])
+  solution, cost,  expanded = Search(grid_ops.GenGrid(), M, "GR1", True)
+  print("Path length=%i, cost=%i, number of expanded nodes=%i"%(solution.depth,
+      cost, expanded))

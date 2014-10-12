@@ -9,7 +9,7 @@ import grid_ops
 
 #[T]wo [T]housand [F]ourty [E]ight problem class
 class TTFE(Problem):
-  def __init__(self, m):
+  def __init__(self, m, grid=None):
     operators = [
       self.operator_up,
       self.operator_down,
@@ -18,10 +18,12 @@ class TTFE(Problem):
     ]
     heuristics = [self.heuristic1]
     self.goal = m
+    if grid is None:
+      grid = grid_ops.GenGrid()
     super().__init__(
       operators,
       heuristics,
-      GenGrid(),
+      grid,
       self.goal_test,
     )
 
