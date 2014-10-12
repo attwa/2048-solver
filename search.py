@@ -38,6 +38,8 @@ def ids(problem):
       return None, total_expanded
     i += 1
 
+def astar(problem, heuristic_id):
+	return general_search(problem, AStarQueue(problem.heuristics[heuristic_id]))
 
 @queue_multi_insert
 class LimitedDepthQueue(queue.LifoQueue):
@@ -64,6 +66,19 @@ class GreedyQueue(queue.PriorityQueue):
   def get(self, *args, **kwargs):
     h, node = super().get(*args, **kwargs)
     return node
+
+@queue_multi_insert
+class AStarQueue(queue.PriorityQueue):
+	def __init__(self, heuristic=lambda a: 0, *args, **kwargs):
+		self.heuristic = heuristic
+		super().__init__(*args, **kwargs)
+
+	def put(self, node, *args, **kwargs):
+		super().put((self.heuristic(node.state) + node.path_cost, node), *args, **kwargs)
+
+	def get(self, *args, **kwargs):
+		f, node = super().get(*args, **kwargs)
+		return
 
 def visualize_solution(node):
   solution = [node]

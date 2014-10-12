@@ -37,3 +37,6 @@ class Problem():
     self.heuristics = heuristics
     self.initial_state = initial_state
     self.goal_test = goal_test
+
+
+from ttfe import TTFE

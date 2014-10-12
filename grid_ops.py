@@ -6,14 +6,12 @@ from random import randint
 # first then applying move left then applying rotate again
 # returns the grid rotated count times antclock wise
 def rotateGrid(grid, count):
-  temp = copy.deepcopy(grid)
-  gridSize = len(grid)
-  grid = [[0]*gridSize]*gridSize
   for i in range(count):
-    for j in range(gridSize):
-      grid[gridSize - 1 - j]= [item[j] for item in temp]
-    temp = copy.deepcopy(grid)
-  return grid
+    grid = numpy.transpose(grid)
+    _, cols = grid.shape 
+    for i in range(cols):
+      grid[:,i] = grid[:,i][::-1]
+  return grid.tolist()
 
 # This method is used to display the grid in the console
 def displayGrid(grid, ret=False):
@@ -45,6 +43,29 @@ def leftAlignNumbers(array):
   while len(temp) != len(array):
     temp.append(0)
   return temp
+# This is the method that is used as a building block for all operators
+# This method moves the board to the left  
+def moveLeft2048(grid):
+  originalGrid = grid
+  grid = copy.deepcopy(grid)
+  gridSize = len(grid)
+  for i in range(gridSize):
+    row = grid[i]
+    row = grid_ops.leftAlignNumbers(row)
+    grid[i] = row
+
+  score = 0
+  for i in range(gridSize):
+    for j in range(gridSize-1):
+      if grid[i][j] == grid[i][j+1] and grid[i][j] != 0:
+        grid[i][j] *= 2
+        score += grid[i][j]
+        del(grid[i][j+1])
+        grid[i].append(0)
+  if grid == originalGrid:
+    return None, 0
+  else:
+    return grid, score
 
 #generates a grid and sets two random cells to 2
 def GenGrid(rows=4, cols=4):
