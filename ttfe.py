@@ -16,7 +16,7 @@ class TTFE(Problem):
       self.operator_left,
       self.operator_right
     ]
-    heuristics = [self.heuristic1]
+    heuristics = [self.heuristic1, self.heuristic2, self.heuristic2]
     self.goal = m
     if grid is None:
       grid = grid_ops.GenGrid()
@@ -46,8 +46,6 @@ class TTFE(Problem):
     else:
       return False
 
-  
-
   #doc lines are used to get a human readable description of the action
   #each operator returns a new state and a cost
 
@@ -60,7 +58,7 @@ class TTFE(Problem):
     grid, cost = grid_ops.moveLeft2048(grid)
     if grid == None:
       return None, 0
-    grid = self.addTile(grid)
+    grid = grid_ops.addTile(grid)
     return grid, cost
 
 

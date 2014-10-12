@@ -1,4 +1,4 @@
-import copy
+import copy, numpy
 from random import randint
 
 # This method is used to rotate the grid clockwise count times
@@ -8,7 +8,7 @@ from random import randint
 def rotateGrid(grid, count):
   for i in range(count):
     grid = numpy.transpose(grid)
-    _, cols = grid.shape 
+    _, cols = grid.shape
     for i in range(cols):
       grid[:,i] = grid[:,i][::-1]
   return grid.tolist()
@@ -43,15 +43,16 @@ def leftAlignNumbers(array):
   while len(temp) != len(array):
     temp.append(0)
   return temp
+
 # This is the method that is used as a building block for all operators
-# This method moves the board to the left  
+# This method moves the board to the left
 def moveLeft2048(grid):
   originalGrid = grid
   grid = copy.deepcopy(grid)
   gridSize = len(grid)
   for i in range(gridSize):
     row = grid[i]
-    row = grid_ops.leftAlignNumbers(row)
+    row = leftAlignNumbers(row)
     grid[i] = row
 
   score = 0

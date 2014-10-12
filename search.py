@@ -56,7 +56,7 @@ class LimitedDepthQueue(queue.LifoQueue):
 
 @queue_multi_insert
 class GreedyQueue(queue.PriorityQueue):
-  def __init__(self, heuristic=lambda a: 0, *args, **kwargs):
+  def __init__(self, heuristic, *args, **kwargs):
     self.heuristic = heuristic
     super().__init__(*args, **kwargs)
 
@@ -69,16 +69,17 @@ class GreedyQueue(queue.PriorityQueue):
 
 @queue_multi_insert
 class AStarQueue(queue.PriorityQueue):
-	def __init__(self, heuristic=lambda a: 0, *args, **kwargs):
+	def __init__(self, heuristic, *args, **kwargs):
 		self.heuristic = heuristic
 		super().__init__(*args, **kwargs)
 
 	def put(self, node, *args, **kwargs):
-		super().put((self.heuristic(node.state) + node.path_cost, node), *args, **kwargs)
+		super().put((self.heuristic(node.state) + node.path_cost, node),
+        *args, **kwargs)
 
 	def get(self, *args, **kwargs):
 		f, node = super().get(*args, **kwargs)
-		return
+		return node
 
 def visualize_solution(node):
   solution = [node]
