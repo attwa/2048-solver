@@ -25,9 +25,9 @@ class Node():
 
   def __str__(self):
     s = ""
+    s += grid_ops.displayGrid(self.state, ret=True)
     s += "depth={0} cost={1} expand_order={2}\n".format(self.depth,
         self.path_cost, self.expanded)
-    s += grid_ops.displayGrid(self.state, ret=True)
     return s
 
 #Abstract problem class

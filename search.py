@@ -66,10 +66,15 @@ class GreedyQueue(queue.PriorityQueue):
     return node
 
 def visualize_solution(node):
-  if not node.root:
-    visualize_solution(node.parent)
-    print(node.operator.__doc__, end="\n\n")
-  grid_ops.displayGrid(node.state)
+  solution = [node]
+  while not node.root:
+    solution.append(node.parent)
+    node = node.parent
+  solution.reverse()
+  for node in solution:
+    if not node.root:
+      print(node.operator.__doc__, end="\n\n")
+    print(node)
 
 def Search(grid, M, strategy, visualize=False):
   problem = ttfe.TTFE(M, grid)
