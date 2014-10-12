@@ -16,7 +16,7 @@ class TTFE(Problem):
       self.operator_left,
       self.operator_right
     ]
-    heuristics = [self.heuristic1, self.heuristic2, self.heuristic2]
+    heuristics = [self.heuristic1, self.heuristic2, self.heuristic3]
     self.goal = m
     if grid is None:
       grid = grid_ops.GenGrid()
@@ -70,9 +70,15 @@ class TTFE(Problem):
       cost += max_value
     return cost
 
+  def heuristic2(self, grid):
+    summation = sum(map(sum, grid))
+    return max(self.goal-summation, 0)
+
+  def heuristic3(self, grid):
+    return max(self.heuristic1(grid), self.heuristic1(grid))
+
   # This method is used to model move Up in the game
   # returns grid after moving it up and score from the move
-  # if the move doesn't change the state it returns None and 0
   def operator_up(self, grid):
     """Move up"""
     originalGrid = grid

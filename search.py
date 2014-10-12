@@ -1,15 +1,19 @@
-import queue, adt, ttfe
+import queue, adt, ttfe, random
 from decorators import queue_multi_insert
 import grid_ops
 
 def general_search(problem, queue):
   num_expanded = 0
+  visited = set()
   queue.put(adt.Node(problem.initial_state, root=True))
   while not queue.empty():
     node = queue.get()
+    if str(node.state) in visited:
+      continue
+    visited.add(str(node.state))
     num_expanded += 1
     node.expanded = num_expanded
-    #print(node, problem.heuristics[0](node.state))
+    print(node, problem.heuristics[0](node.state))
     if problem.goal_test(node.state):
       return node, num_expanded
     queue.put_many(node.expand(problem.operators))
@@ -104,10 +108,14 @@ def Search(grid, M, strategy, visualize=False):
     solution, expanded = greedy(problem, 0)
   elif strategy == "GR2":
     solution, expanded = greedy(problem, 1)
+  elif strategy == "GR3":
+    solution, expanded = greedy(problem, 2)
   elif strategy == "AS1":
     solution, expanded = astar(problem, 0)
   elif strategy == "AS2":
     solution, expanded = astar(problem, 1)
+  elif strategy == "AS3":
+    solution, expanded = astar(problem, 2)
   else:
     raise Exception("%s is not a valid strategy"%(strategy, ))
   if visualize:
@@ -117,6 +125,7 @@ def Search(grid, M, strategy, visualize=False):
 if __name__ == "__main__":
   import sys
   M = int(sys.argv[1])
-  solution, cost,  expanded = Search(grid_ops.GenGrid(), M, "GR1", True)
+  random.seed(M)
+  solution, cost,  expanded = Search(grid_ops.GenGrid(), M, sys.argv[2], False)
   print("Path length=%i, cost=%i, number of expanded nodes=%i"%(solution.depth,
       cost, expanded))
