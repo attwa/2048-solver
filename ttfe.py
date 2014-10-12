@@ -5,6 +5,7 @@ from adt import Node, Problem
 from search import general_search, dfs, bfs, ids
 import copy
 from boardOperations import moveLeft2048
+import grid_ops
 
 #[T]wo [T]housand [F]ourty [E]ight problem class
 class TTFE(Problem):
@@ -43,54 +44,6 @@ class TTFE(Problem):
     else:
       return False
 
-  # This method is used to rotate the grid clockwise count times
-  # so that we can use move left for move right/up/down just by rotating
-  # first then applying move left then applying rotate again
-  # returns the grid rotated count times antclock wise
-  @staticmethod
-  def rotateGrid(grid, count):
-    temp = copy.deepcopy(grid)
-    gridSize = len(grid)
-    grid = [[0]*gridSize]*gridSize
-    for i in range(count):
-      for j in range(gridSize):
-        grid[gridSize - 1 - j]= [item[j] for item in temp]
-      temp = copy.deepcopy(grid)
-    return grid
-
-  # This method is used to display the grid in the console
-  @staticmethod
-  def displayGrid(grid, ret=False):
-    s=""
-    for row in grid:
-      s += "\t".join(row) + "\n"
-    if ret: return s
-    print(s)
-
-  # This method is used to add a tile for the grid
-  # returns new grid affter adding a tile
-  def addTile(self, grid):
-    grid = copy.deepcopy(grid)
-    if grid[0][0] == 0:
-      grid[0][0] = 2
-    elif grid[0][-1] == 0:
-      grid[0][-1] = 2
-    elif grid[-1][-1] == 0:
-      grid[-1][-1] = 2
-    elif grid[-1][0] == 0:
-      grid[-1][0] = 2
-    return grid
-
-  # This method is used to remove any zeros that lie between any
-  # non zero numbers in all the rows of the grid
-  # returns an array with zeros moved to the right of it
-  @staticmethod
-  def leftAlignNumbers(array):
-    temp = [x for x in filter(lambda a: a != 0, array)]
-    while len(temp) != len(array):
-      temp.append(0)
-    return temp
-
   #doc lines are used to get a human readable description of the action
   #each operator returns a new state and a cost
 
@@ -104,7 +57,7 @@ class TTFE(Problem):
     gridSize = len(grid)
     for i in range(gridSize):
       row = grid[i]
-      row = self.leftAlignNumbers(row)
+      row = grid_ops.leftAlignNumbers(row)
       grid[i] = row
 
     score = 0
@@ -118,7 +71,7 @@ class TTFE(Problem):
     if grid == originalGrid:
       return None, 0
     else:
-      grid = self.addTile(grid)
+      grid = grid_ops.addTile(grid)
       return grid, score
 
   def heuristic1(self, grid):
@@ -135,12 +88,12 @@ class TTFE(Problem):
   def operator_up(self, grid):
     """Move up"""
     originalGrid = grid
-    grid = self.rotateGrid(grid,1)
+    grid = grid_ops.rotateGrid(grid,1)
     grid, cost = moveLeft2048(grid)
     if grid == None:
       return None, 0
-    grid = self.rotateGrid(grid,3)
-    grid = self.addTile(grid)
+    grid = grid_ops.rotateGrid(grid,3)
+    grid = grid_ops.addTile(grid)
     return grid, cost
 
   # This method is used to model move Down in the game
@@ -149,12 +102,12 @@ class TTFE(Problem):
   def operator_down(self, grid):
     """Move down"""
     originalGrid = grid
-    grid = self.rotateGrid(grid,3)
+    grid = grid_ops.rotateGrid(grid,3)
     grid, cost = moveLeft2048(grid)
     if grid == None:
       return None, 0
-    grid = self.rotateGrid(grid,1)
-    grid = self.addTile(grid)
+    grid = grid_ops.rotateGrid(grid,1)
+    grid = grid_ops.addTile(grid)
     return grid, cost
 
   # This method is used to model move Right in the game
@@ -163,23 +116,13 @@ class TTFE(Problem):
   def operator_right(self, grid):
     """Move right"""
     originalGrid = grid
-    grid = self.rotateGrid(grid,2)
+    grid = grid_ops.rotateGrid(grid,2)
     grid, cost = moveLeft2048(grid)
     if grid == None:
       return None, 0
-    grid = self.rotateGrid(grid,2)
-    grid = self.addTile(grid)
+    grid = grid_ops.rotateGrid(grid,2)
+    grid = grid_ops.addTile(grid)
     return grid, cost
-
-#generates a grid and sets two random cells to 2
-def GenGrid(rows=4, cols=4):
-  grid = [[0]*cols for x in range(rows)]
-
-  # checks that there are two '2's in the grid
-  # protects against problem where the random values for row and col are the same
-  while sum(map(sum, grid)) < 4:
-    grid[randint(0, rows-1)][randint(0, cols-1)] = 2
-  return grid
 
 if __name__ == "__main__":
   p = TTFE(64)

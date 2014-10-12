@@ -1,4 +1,4 @@
-import boardOperations
+import grid_ops, random
 
 #Abstract search tree class
 class Node():
@@ -13,7 +13,7 @@ class Node():
 
   def expand(self, operators):
     new_nodes = []
-    for operator in operators:
+    for operator in random.sample(operators, len(operators)):
       new_state, cost = operator(self.state)
       if new_state is not None:
         node = Node(new_state, operator, self, self.depth+1, self.path_cost+cost)
@@ -27,7 +27,7 @@ class Node():
     s = ""
     s += "depth={0} cost={1} expand_order={2}\n".format(self.depth,
         self.path_cost, self.expanded)
-    s += boardOperations.displayGrid(self.state, ret=True)
+    s += grid_ops.displayGrid(self.state, ret=True)
     return s
 
 #Abstract problem class
