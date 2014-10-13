@@ -9,6 +9,8 @@ import grid_ops
 
 #[T]wo [T]housand [F]ourty [E]ight problem class
 class TTFE(Problem):
+  # this is the constructor for the 2048 problem class and it takes as input the required
+  # m and the initial grid 
   def __init__(self, m, grid=None):
     operators = [
       self.operator_up,
@@ -27,14 +29,14 @@ class TTFE(Problem):
       self.goal_test,
     )
 
-  #returns a function that is the correct goal test according to the chosesn M
+  # this is the function that checks the goal test according to the chosen M
   def goal_test(self, grid):
     for row in grid:
       for cell in row:
         if cell == self.goal: return True
     return False
 
-  # This method is used to check whether the grid is blocked and the game is over or not
+  # This function is used to check whether the grid is blocked and the game is over or not
   # retruns either true or false
   def checkBlocked(self, grid):
     grid1, _ = operator_up(self, grid)
@@ -49,7 +51,7 @@ class TTFE(Problem):
   #doc lines are used to get a human readable description of the action
   #each operator returns a new state and a cost
 
-  # This method is used to model move left in the game
+  # This function is used to model move left in the game
   # returns grid after moving it left and score from the move
   # if the move doesn't change the state it returns None and 0
   def operator_left(self, grid):
@@ -61,7 +63,7 @@ class TTFE(Problem):
     grid = grid_ops.addTile(grid)
     return grid, cost
 
-
+  # this function returns the value of applying the first heuristic on the grid
   def heuristic1(self, grid):
     max_value = max(map(max, grid))
     cost = 0
@@ -70,15 +72,19 @@ class TTFE(Problem):
       cost += max_value
     return cost
 
+  # this function returns the value of applying the second heuristic on the grid
   def heuristic2(self, grid):
     summation = sum(map(sum, grid))
     return max(self.goal-summation, 0)
 
+  # this is the function that given a grid returns the max of both heuristics applied on it
   def heuristic3(self, grid):
     return max(self.heuristic1(grid), self.heuristic1(grid))
 
-  # This method is used to model move Up in the game
+  # This function is used to model move Up in the game
   # returns grid after moving it up and score from the move
+  # the move is done by rotating the grid to the left 1 times 
+  # then applying move left and the rotating it back 3 times
   def operator_up(self, grid):
     """Move up"""
     originalGrid = grid
@@ -90,9 +96,11 @@ class TTFE(Problem):
     grid = grid_ops.addTile(grid)
     return grid, cost
 
-  # This method is used to model move Down in the game
+  # This function is used to model move Down in the game
   # returns grid after moving it down and score from the move
   # if the move doesn't change the state it returns None and 0
+  # the move is done by rotating the grid to the left 3 times 
+  # then applying move left and the rotating it back 1 times
   def operator_down(self, grid):
     """Move down"""
     originalGrid = grid
@@ -104,9 +112,11 @@ class TTFE(Problem):
     grid = grid_ops.addTile(grid)
     return grid, cost
 
-  # This method is used to model move Right in the game
+  # This function is used to model move Right in the game
   # returns grid after moving it right and score from the move
   # if the move doesn't change the state it returns None and 0
+  # the move is done by rotating the grid to the left 2 times 
+  # then applying move left and the rotating it back 2 times
   def operator_right(self, grid):
     """Move right"""
     originalGrid = grid
@@ -118,8 +128,8 @@ class TTFE(Problem):
     grid = grid_ops.addTile(grid)
     return grid, cost
 
-if __name__ == "__main__":
-  p = TTFE(64)
-  # p.operator_left([[1,2,3,4],[1,2,3,4],[1,2,3,4],[1,2,3,4]])
-  # p.operator_left([[1,2,3,4],[1,2,3,4],[1,2,3,4],[1,2,3,4]])
-  pass
+# if __name__ == "__main__":
+#   p = TTFE(64)
+#   # p.operator_left([[1,2,3,4],[1,2,3,4],[1,2,3,4],[1,2,3,4]])
+#   # p.operator_left([[1,2,3,4],[1,2,3,4],[1,2,3,4],[1,2,3,4]])
+#   pass

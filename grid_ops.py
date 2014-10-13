@@ -1,7 +1,7 @@
 import copy, numpy
 from random import randint
 
-# This method is used to rotate the grid clockwise count times
+# This function is used to rotate the grid clockwise count times
 # so that we can use move left for move right/up/down just by rotating
 # first then applying move left then applying rotate again
 # returns the grid rotated count times antclock wise
@@ -13,7 +13,8 @@ def rotateGrid(grid, count):
       grid[:,i] = grid[:,i][::-1]
   return grid.tolist()
 
-# This method is used to display the grid in the console
+# This function is used to display the grid in the console if ret is flase
+# or to return the grid as a string if ret is true
 def displayGrid(grid, ret=False):
   s=""
   for row in grid:
@@ -21,8 +22,8 @@ def displayGrid(grid, ret=False):
   if ret: return s
   print(s)
 
-# This method is used to add a tile for the grid
-# returns new grid affter adding a tile
+# This function is used to add a tile for the grid
+# returns new grid after adding a tile
 def addTile(grid):
   grid = copy.deepcopy(grid)
   if grid[0][0] == 0:
@@ -35,7 +36,7 @@ def addTile(grid):
     grid[-1][0] = 2
   return grid
 
-# This method is used to remove any zeros that lie between any
+# This function is used to remove any zeros that lie between any
 # non zero numbers in all the rows of the grid
 # returns an array with zeros moved to the right of it
 def leftAlignNumbers(array):
@@ -44,8 +45,8 @@ def leftAlignNumbers(array):
     temp.append(0)
   return temp
 
-# This is the method that is used as a building block for all operators
-# This method moves the board to the left
+# This is the function that is used as a building block for all operators
+# This function moves the board to the left
 def moveLeft2048(grid):
   originalGrid = grid
   grid = copy.deepcopy(grid)
