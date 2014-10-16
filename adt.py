@@ -2,10 +2,10 @@ import grid_ops, random
 
 #Abstract search tree class
 class Node():
-  # this is the constructor of the node class
-  # it takes the state of the node(grid), the operator from the parent node,
-  # the parent node it self, depth of the current node, path cost from root 
-  # and whether it is root or not
+  # this is the constructor of the node class it takes the state of the node (a
+  # 2D grid), the operator from the parent that lead to the current node, the
+  # parent node itself, depth of the current node, path cost from root and
+  # whether it is root node or not
   def __init__(self, state, operator=None, parent=None,
       depth=0, path_cost=0, root=False):
     self.root = root
@@ -15,8 +15,9 @@ class Node():
     self.depth = depth
     self.path_cost = path_cost
 
-  # this is the function that is used to generate new nodes from a current node
-  # it takes the list of valid operators as input
+  # This is the function that is used to generate new nodes from a current node
+  # it takes the list of operators as input. Operators that return None on
+  # current state
   def expand(self, operators):
     new_nodes = []
     for operator in operators:

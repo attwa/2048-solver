@@ -4,7 +4,7 @@ from random import randint
 # This function is used to rotate the grid clockwise count times
 # so that we can use move left for move right/up/down just by rotating
 # first then applying move left then applying rotate again
-# returns the grid rotated count times antclock wise
+# returns the grid rotated count times anticlock wise
 def rotateGrid(grid, count):
   for i in range(count):
     grid = numpy.transpose(grid)
@@ -13,7 +13,7 @@ def rotateGrid(grid, count):
       grid[:,i] = grid[:,i][::-1]
   return grid.tolist()
 
-# This function is used to display the grid in the console if ret is flase
+# This function is used to display the grid in the console if ret is false
 # or to return the grid as a string if ret is true
 def displayGrid(grid, ret=False):
   s=""
@@ -73,8 +73,7 @@ def moveLeft2048(grid):
 def GenGrid(rows=4, cols=4):
   grid = [[0]*cols for x in range(rows)]
 
-  # checks that there are two '2's in the grid and then add another 2
-  # protects against problem where the random values for row and col are the same
+  # checks that there are two '2's in the grid otherwise adds another 2
   while sum(map(sum, grid)) < 4:
     grid[randint(0, rows-1)][randint(0, cols-1)] = 2
   return grid

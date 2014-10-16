@@ -10,7 +10,7 @@ import grid_ops
 #[T]wo [T]housand [F]ourty [E]ight problem class
 class TTFE(Problem):
   # this is the constructor for the 2048 problem class and it takes as input the required
-  # m and the initial grid 
+  # m and the initial grid otherwise it creates a random grid.
   def __init__(self, m, grid=None):
     operators = [
       self.operator_up,
@@ -20,8 +20,10 @@ class TTFE(Problem):
     ]
     heuristics = [self.heuristic1, self.heuristic2, self.heuristic3]
     self.goal = m
+
     if grid is None:
       grid = grid_ops.GenGrid()
+
     super().__init__(
       operators,
       heuristics,
@@ -37,7 +39,7 @@ class TTFE(Problem):
     return False
 
   # This function is used to check whether the grid is blocked and the game is over or not
-  # retruns either true or false
+  # returns either true or false
   def checkBlocked(self, grid):
     grid1, _ = operator_up(self, grid)
     grid2, _ = operator_left(self, grid)
@@ -47,21 +49,6 @@ class TTFE(Problem):
       return True
     else:
       return False
-
-  #doc lines are used to get a human readable description of the action
-  #each operator returns a new state and a cost
-
-  # This function is used to model move left in the game
-  # returns grid after moving it left and score from the move
-  # if the move doesn't change the state it returns None and 0
-  def operator_left(self, grid):
-    """Move left"""
-    originalGrid = grid
-    grid, cost = grid_ops.moveLeft2048(grid)
-    if grid == None:
-      return None, 0
-    grid = grid_ops.addTile(grid)
-    return grid, cost
 
   # this function returns the value of applying the first heuristic on the grid
   def heuristic1(self, grid):
@@ -80,6 +67,21 @@ class TTFE(Problem):
   # this is the function that given a grid returns the max of both heuristics applied on it
   def heuristic3(self, grid):
     return max(self.heuristic1(grid), self.heuristic1(grid))
+
+  #doc lines are used to get a human readable description of the action
+  #each operator returns a new state and a cost
+
+  # This function is used to model move left in the game
+  # returns grid after moving it left and score from the move
+  # if the move doesn't change the state it returns None and 0
+  def operator_left(self, grid):
+    """Move left"""
+    originalGrid = grid
+    grid, cost = grid_ops.moveLeft2048(grid)
+    if grid == None:
+      return None, 0
+    grid = grid_ops.addTile(grid)
+    return grid, cost
 
   # This function is used to model move Up in the game
   # returns grid after moving it up and score from the move
@@ -127,9 +129,3 @@ class TTFE(Problem):
     grid = grid_ops.rotateGrid(grid,2)
     grid = grid_ops.addTile(grid)
     return grid, cost
-
-# if __name__ == "__main__":
-#   p = TTFE(64)
-#   # p.operator_left([[1,2,3,4],[1,2,3,4],[1,2,3,4],[1,2,3,4]])
-#   # p.operator_left([[1,2,3,4],[1,2,3,4],[1,2,3,4],[1,2,3,4]])
-#   pass
